@@ -1,0 +1,159 @@
+\documentclass[letterpaper, 12pt]{article}
+
+%% Language and font encodings
+\usepackage[english]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{subfig}
+
+%% Sets page size and margins
+\usepackage[letterpaper,top=2.4cm,bottom=2.4cm,left=3.6cm,right=3.6cm,marginparwidth=2.4cm]{geometry}
+
+%% Useful packages
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+
+\title{Twitter Sentiment Analysis}
+\author{
+Mohammad Ghasemisharif, 
+Mohammad Ali Bashiri, 
+}
+
+
+
+
+
+
+
+
+
+\newcommand \bw {\mathbf{w}}
+\newcommand \bW {\mathbf{W}}
+\newcommand \bx {\mathbf{x}}
+\newcommand\norm[1]{\left\lVert#1\right\rVert}
+\setlength{\parindent}{0pt}
+\begin{document}
+
+\maketitle
+\newpage
+
+\section{Abstract}
+
+
+Twitter plays an important role in US presidential election . A single tweet has the ability to shape political conversations and drive media coverage and affect the outcome of the election. Therefore, Sentiment analysis of tweets can provide interesting and valuable information, furthermore,  candidates can use the analysis in order to win an election. In this project, we analyze the tweets that form a discussion between presidential candidates Barack Obama and Mitt Romney at US 2012 presidential election. The goal is to predict to predict whether a given tweet is positive or negative. To train the model a set of training sentences is given where each sentence is annotated as positive or negative or neutral. In our model, the training -or test- data  is passed through several phases of pre-processing. Once we have a clean training data set, we train our models and apply the obtained model on test data set. In this project we use RapidMiner[1] for  pre-processing  step and classification. We explain the methods that we used and report the results on training dataset. 
+
+
+
+
+
+\vspace*{10pt}
+\section{Introduction}
+Sentiment Analysis is the process of computationally determining whether a piece of writing is positive, negative or neutral. In other words, suppose a piece of writing is given, the task is to classify the piece of writing into three classes of positive, negative or neutral given a set of annotated writing as the training examples.   It’s also known as opinion mining, deriving the opinion or attitude of a speaker. This can be quite challenging due to complexity of training data and also because the tweets are most of the time messy in a sense that they are many spelling and grammar error in tweets, also a tweet could be from multiple languages and contains special characters and symbols such as hash-tags and URLs. So, compare to a general classification task, Twitter Sentiment Analysis, needs to clean the data very carefully in addition to choosing an appropriate classification method. Moreover, even with a proper pre-processing step, sometimes it is hard to find the actual intention of the tweet, due to the fact that tweets may contain different subtext or humor, which changes the meaning of the tweet and makes them ambiguous.  In this project, we tried to perform sentiment analysis on tweets of 2012 US presidential election from both Barack Obama and Mitt Romney. The tweets are classified to positive, negative, and neutral classes. We have used Rapid- Miner for pre-processing and building the supervised learning model.
+
+
+
+
+\section{Tweet Analysis Technique}
+\vspace*{10pt}
+
+As we discussed earlier, our analysis consist of two parts, first, pre-processing the data and second, applying the classification methods. In this section, for each part, we explain the methods that we used in detail. Essentially, for pre-processing we describe all the methods to get a clean text and  for classification part, we describe all classifiers and that we used in our analysis.   
+
+
+\vspace*{10pt}
+\subsection{Pre-processing Methods}
+
+Pre-processing the raw data takes up the majority share of the work, and often holds the key to good classification. In this project we have tried several pre-processing techniques, on the basis of the training data, of which we are stipulating the ones that gave the best results. In this section we describe each pre-processing method that we used in detail. Essentially, for pre-processing we describe case-converting, tokenization, filtering, stop-word removal, stemming, and building n-Gram model.\\
+
+
+\vspace*{10pt}
+\textbf{Case Conversion}\\
+
+To get rid of any discrepancy that may arise due to inconsistency of representation of a word we convert all alphabets to their lower case representation. This conversion helps the model to treat the same words which appeared differently in different places the same.\\
+
+\vspace*{10pt}
+\textbf{Tokenization}\\
+
+
+For a character sequence and a defined document, tokenization is the task of chopping the document up into pieces, called tokens , perhaps at the same time throwing away certain characters, such as punctuation. The Vector Space Model for information retrieval requires the document to be represented as a weight vector. The vector components are essentially the words or terms in the document. Therefore, the data is tokenized into words on the basis of spaces and special characters.\\
+
+\vspace*{10pt}
+\textbf{Filtering}\\
+
+
+There are some elements in texts that are essentially uninformative and sometimes even confuses the outcome of a classifier. For example, some texts may contain URLs, which does not provide any valuable information for a better classification.   Filtering basically gets rid of uninformative elements of a text. In this project we used a filter to remove all instances that label is not provided for them. A filter that removes all the instances that has a missing attribute. We also add filters for removing emails, URLs, numbers, non-letter alphabets, and the words that has length less than 3 or more than 25.\\
+
+\vspace*{10pt}
+\textbf{Stop Word Removal}\\
+
+
+There are words in any language that being used frequently but does not have any valuable information such as, to, a, such, etc. We used a list of common stop-words in English and removed all such words from the datasets.   
+
+
+
+\vspace*{10pt}
+\textbf{Stemming}\\
+
+Stemming is to represent a word in terms of its roots. Almost all of the times,  there is no difference between the words like and likes. So, it is better to consider the root of each word, more precisely if we replace all the words with their roots then there is no redundant representation of a word in the model. \\
+
+\vspace*{10pt}
+\textbf{N-Gram Model}\\
+
+N-Gram is a the most widely used statistical model to model a language. In this model, the assumption is that a test is a sequence of random variables where each random variable depends on the N previous variable assignments. 
+
+\[
+	P(w_1, w_2, \ldots, w_n) = P(w_1) P(w_2) P(w_3) \ldots P(w_n|w_1, \ldots, w_{n-1})
+\]
+
+The choice of N here depends on the task but usually N=3 works better than other assignemnt. Note that, this model handle the words that are not appeared in train but appeared in test using a smoothing method. \\
+
+
+
+\vspace*{10pt}
+\subsection{Classification Methods}
+
+we explain the methods that we used here that includes, support vector machines, logistic regression, random-forest and deep neural networks.  
+
+
+
+Different text classification methods we explored in this project are K-Nearest Neighbours (K-NN) method, Naive Bayesian, Complementary Naive Bayesian [4], and Support Vector Machines. Unlike the other methods, K-NN does not create a model from the training data, and therefore, we used 10-fold cross- validation to understand how efficiently K-NN fits the given training data set. However, Complementary Naive Bayesian and Support Vector machine classification methods gave better results for the given data sets than the rest.
+The Complementary Naive Bayesian classification method improves over the simple Naive Bayesian classification for data in which one class has more training examples than the other classes. This is the reason that complementary Naive Bayesian fits our data better, because the training data exhibits similar properties, with positive class being approximately 10% and 45% less in number than the negative or neutral classes for Obama and Romney examples respectively.
+We also explored Support Vector Machine classification method with ”one against all” strategy due to the presence of more than two classes. We
+3
+
+        Table 1: Performance metrics for multiple approaches using 10-fold cross validation on training data
+Table 2: Performance metrics for multiple approaches on the test data
+received the best results with linear kernel, although we tried with other kernels too. We tuned the soft margin coefficient C to high values to choose a smaller margin hyperplane to avoid mis-classification of training examples.
+Both Complementary Naive Bayesian and Support Vector Machine provide competitive results, and while SVM gives better results for Romney positive, complementary Naive Bayesian does better for the others. Both the results are presented in the section 4.
+
+
+\section{Evaluation}
+In this project, we have tried multiple data cleaning and classification meth- ods on the data provided. Precision (P), recall (R), and F-score (F) are the metrics reported for each method. For the first and second presentation we used 10-fold cross validation on the training data, since we did not have the test data, yet. The classification methods used in that step were K-NN, Naive Bayesian, SVM with polynomial kernel and linear kernel. The results are reported in table 1. The best result in this step was obtained using SVM. A key observation for the given data set is that the performance metrics for Romney negative class is always higher that the positive class. This is due to the fact that the given data for Romney is not balanced and has 3 times
+
+       
+more data for negative class compared to the positive class.
+For the final demo, we tried Complementary Naive Bayesian in addition to the methods used with 10-fold cross validation. Table 2 shows the results and performance obtained using SVM and Complementary Naive Bayesian methods, which gave us the best performance. We have also included the results for running the original data (no pre-processing performed) with SVM
+to show how important it is to perform a proper data cleaning.this two problems are equivalent and showed the so called equivalence experimentally on a very limited data.  
+
+
+ \vspace*{10pt}
+
+
+
+The method of comparison in this paper is only based on accuracy. Although I am not expert in the area of biology but it seems better evaluation method can be used here. Moreover,  there is no discussion on the time complexity of the model. Since the data is huge in this task, one should consider the time complexity of the method, especially when there is an extra step where you need to first compute a graph and then compute all subgraphs with certain properties. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+\end{document}

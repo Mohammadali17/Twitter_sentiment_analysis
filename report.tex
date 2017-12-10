@@ -6,7 +6,7 @@
 \usepackage[T1]{fontenc}
 \usepackage{graphicx}
 \usepackage{subfig}
-
+\usepackage{multirow}
 %% Sets page size and margins
 \usepackage[letterpaper,top=2.4cm,bottom=2.4cm,left=3.6cm,right=3.6cm,marginparwidth=2.4cm]{geometry}
 
@@ -113,20 +113,51 @@ The choice of N here depends on the task but usually N=3 works better than other
 
 \vspace*{10pt}
 \subsection{Classification Methods}
+We select common text classification methods including Support Vector Machine, Logistic Regression,
+Random Forest, and Naive Bayes as well as more complex methods such as Long short-term memory (LSTM) 
+to perform the classification task. All of the methods are evaluated using 10-fold cross validation. 
+Tuning parameters is done experimentally and thus for each classifier, we change the parameters 
+and run the experiment multiple times to find the better precision and recall for individual and 
+overal classes. 
 
-we explain the methods that we used here that includes, support vector machines, logistic regression, random-forest and deep neural networks.  
+We use SVM with C-SVC type and proceed the experiments with two different kernels: Linear and rbf 
+kernels. We then adjust the parameters such as C, gamma, and cache size and compare the results. 
+The value of C for Linear and rbf is set to 1000 and 500 respectively. Cache size is equally set 
+to 100 and gamma, for rbf, is set to 0.1. Table~\ref{fig:res} shows the results of both 
+classifiers for Obama and Romney tweets. Logistic Regression is another text classifier that we use in our experiments. We use \emph{MeanImputation}
+for handling missing values. As it is shown in Table~\ref{fig:res}, the results are not as promising as
+SVM classifier. We further explore Naive Bayes and Random Forest. Our Random Forest has 120 trees 
+with max depth of 12 and uses gain ration and information gain. Lastly, our Naive Bayes is set to 
+use laplace correction. 
 
 
+% Please add the following required packages to your document preamble:
+% \usepackage{multirow}
+\begin{table}[t]
+        \centering
+        \caption{Classification methods results}
+        \label{fig:res}
+        \resizebox{\textwidth}{!}{\begin{tabular}{l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|}
+        \cline{2-15}
+        & \multicolumn{7}{c|}{Obama} & \multicolumn{7}{c|}{Romney} \\ \cline{2-15} 
+        & \multicolumn{3}{c|}{Positive} & \multicolumn{3}{c|}{Negative} & \multirow{2}{*}{Accuracy} & \multicolumn{3}{c|}{Positive} & \multicolumn{3}{c|}{Negative} & \multirow{2}{*}{Accuracy} \\ \cline{2-7} \cline{9-14}
+        & Precision & Recall & F-Score & Precision & Recall & F-Score &  & Precision & Recall & F-Score & Precision & Recall & F-Score &  \\ \hline
+       \multicolumn{1}{|l|}{SVM Linear} & 68.46 & 55.21 &  & 65.92 & 52.29 &  & 59.41 & 62.26 & 32.84 &  & 60.26 & 86.28 &  & 58.73 \\ \hline
+       \multicolumn{1}{|l|}{SVM rbf} & 67.54 & 59.98 &  & 63.97 & 60.76 &  & 60.88 & 33.67 & 63.18 &  & 60.77 & 85.07 &  & 58.91 \\ \hline
+       \multicolumn{1}{|l|}{Logistic Regression} & 58.49 & 57.06 &  & 64.44 & 37.20 &  & 54.39 & 45.43 & 45.77 &  & 66.72 & 58.62 &  & 53.70 \\ \hline
+       \multicolumn{1}{|l|}{Naive Bayes} & 48.92 & 49.73 &  & 60.48 & 35.92 &  & 49.63 & 32.48 & 56.37 &  & 59.70 & 65.17 &  & 49.81 \\ \hline
+       \multicolumn{1}{|l|}{Random Forest} &  &  &  &  &  &  &  &  &  &  &  &  &  &  \\ \hline
+       \multicolumn{1}{|l|}{LSTM} &  &  &  &  &  &  & 55.73 &  &  &  &  &  &  & 54.12 \\ \hline  
+        \end{tabular}}
+        \end{table}
 
-Different text classification methods we explored in this project are K-Nearest Neighbours (K-NN) method, Naive Bayesian, Complementary Naive Bayesian [4], and Support Vector Machines. Unlike the other methods, K-NN does not create a model from the training data, and therefore, we used 10-fold cross- validation to understand how efficiently K-NN fits the given training data set. However, Complementary Naive Bayesian and Support Vector machine classification methods gave better results for the given data sets than the rest.
-The Complementary Naive Bayesian classification method improves over the simple Naive Bayesian classification for data in which one class has more training examples than the other classes. This is the reason that complementary Naive Bayesian fits our data better, because the training data exhibits similar properties, with positive class being approximately 10% and 45% less in number than the negative or neutral classes for Obama and Romney examples respectively.
-We also explored Support Vector Machine classification method with ”one against all” strategy due to the presence of more than two classes. We
-3
-
-        Table 1: Performance metrics for multiple approaches using 10-fold cross validation on training data
-Table 2: Performance metrics for multiple approaches on the test data
-received the best results with linear kernel, although we tried with other kernels too. We tuned the soft margin coefficient C to high values to choose a smaller margin hyperplane to avoid mis-classification of training examples.
-Both Complementary Naive Bayesian and Support Vector Machine provide competitive results, and while SVM gives better results for Romney positive, complementary Naive Bayesian does better for the others. Both the results are presented in the section 4.
+Finally, we build a recurrent neural network using LSTM and train the data set to examine its 
+performance. We implement the neural network using Keras. Unfortunately, the current version 
+of Keras does not support performance metrics other than accuracy, thus we only included the 
+accuracy result for LSTM. The network is composed of one layer convolutional with \emph{relu} activation
+, one maxpooling with size of 4, and one layer LSTM. The activation function we use 
+is \emph{softmax} and finally we use \emph{categorical cross entropy}
+for loss. 
 
 
 \section{Evaluation}

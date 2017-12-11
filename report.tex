@@ -134,25 +134,7 @@ with max depth of 12 and uses gain ration and information gain. Lastly, our Naiv
 use laplace correction. 
 
 
-% Please add the following required packages to your document preamble:
-% \usepackage{multirow}
-\begin{table}[t]
-        \centering
-        \caption{Classification methods results}
-        \label{fig:res}
-        \resizebox{\textwidth}{!}{\begin{tabular}{l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|}
-        \cline{2-15}
-        & \multicolumn{7}{c|}{Obama} & \multicolumn{7}{c|}{Romney} \\ \cline{2-15} 
-        & \multicolumn{3}{c|}{Positive} & \multicolumn{3}{c|}{Negative} & \multirow{2}{*}{Accuracy} & \multicolumn{3}{c|}{Positive} & \multicolumn{3}{c|}{Negative} & \multirow{2}{*}{Accuracy} \\ \cline{2-7} \cline{9-14}
-        & Precision & Recall & F-Score & Precision & Recall & F-Score &  & Precision & Recall & F-Score & Precision & Recall & F-Score &  \\ \hline
-       \multicolumn{1}{|l|}{SVM Linear} & 68.46 & 55.21 &  & 65.92 & 52.29 &  & 59.41 & 62.26 & 32.84 &  & 60.26 & 86.28 &  & 58.73 \\ \hline
-       \multicolumn{1}{|l|}{SVM rbf} & 67.54 & 59.98 &  & 63.97 & 60.76 &  & 60.88 & 33.67 & 63.18 &  & 60.77 & 85.07 &  & 58.91 \\ \hline
-       \multicolumn{1}{|l|}{Logistic Regression} & 58.49 & 57.06 &  & 64.44 & 37.20 &  & 54.39 & 45.43 & 45.77 &  & 66.72 & 58.62 &  & 53.70 \\ \hline
-       \multicolumn{1}{|l|}{Naive Bayes} & 48.92 & 49.73 &  & 60.48 & 35.92 &  & 49.63 & 32.48 & 56.37 &  & 59.70 & 65.17 &  & 49.81 \\ \hline
-       \multicolumn{1}{|l|}{Random Forest} &  &  &  &  &  &  &  &  &  &  &  &  &  &  \\ \hline
-       \multicolumn{1}{|l|}{LSTM} &  &  &  &  &  &  & 55.73 &  &  &  &  &  &  & 54.12 \\ \hline  
-        \end{tabular}}
-        \end{table}
+% Please add the follow
 
 Finally, we build a recurrent neural network using LSTM and train the data set to examine its 
 performance. We implement the neural network using Keras. Unfortunately, the current version 

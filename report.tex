@@ -6,6 +6,7 @@
 \usepackage[T1]{fontenc}
 \usepackage{graphicx}
 \usepackage{subfig}
+\usepackage{blindtext}
 \usepackage{multirow}
 %% Sets page size and margins
 \usepackage[letterpaper,top=2.4cm,bottom=2.4cm,left=3.6cm,right=3.6cm,marginparwidth=2.4cm]{geometry}
@@ -16,12 +17,16 @@
 \usepackage[colorinlistoftodos]{todonotes}
 \usepackage[colorlinks=true, allcolors=blue]{hyperref}
 
-\title{Twitter Sentiment Analysis}
+\title{Twitter Sentiment Analysis\\
+Course Project Report\\
+CS-583}
 \author{
 Mohammad Ghasemisharif, 
 Mohammad Ali Bashiri, 
 }
-
+% \subtitle{Course Project Report }
+% \subject{CS-583}
+% \date{today}
 
 
 
@@ -123,10 +128,8 @@ overal classes.
 We use SVM with C-SVC type and proceed the experiments with two different kernels: Linear and rbf 
 kernels. We then adjust the parameters such as C, gamma, and cache size and compare the results. 
 The value of C for Linear and rbf is set to 1000 and 500 respectively. Cache size is equally set 
-to 100 and gamma, for rbf, is set to 0.1. Table~\ref{fig:res} shows the results of both 
-classifiers for Obama and Romney tweets. Logistic Regression is another text classifier that we use in our experiments. We use \emph{MeanImputation}
-for handling missing values. As it is shown in Table~\ref{fig:res}, the results are not as promising as
-SVM classifier. We further explore Naive Bayes and Random Forest. Our Random Forest has 120 trees 
+to 100 and gamma, for rbf, is set to 0.1.  Logistic Regression is another text classifier that we use in our experiments. We use \emph{MeanImputation}
+for handling missing values. We further explore Naive Bayes and Random Forest. Our Random Forest has 120 trees 
 with max depth of 12 and uses gain ration and information gain. Lastly, our Naive Bayes is set to 
 use laplace correction. 
 
@@ -157,30 +160,52 @@ of Keras does not support performance metrics other than accuracy, thus we only 
 accuracy result for LSTM. The network is composed of one layer convolutional with \emph{relu} activation
 , one maxpooling with size of 4, and one layer LSTM. The activation function we use 
 is \emph{softmax} and finally we use \emph{categorical cross entropy}
-for loss. 
+for the loss function. 
 
 
-\section{Evaluation}
-In this project, we have tried multiple data cleaning and classification meth- ods on the data provided. Precision (P), recall (R), and F-score (F) are the metrics reported for each method. For the first and second presentation we used 10-fold cross validation on the training data, since we did not have the test data, yet. The classification methods used in that step were K-NN, Naive Bayesian, SVM with polynomial kernel and linear kernel. The results are reported in table 1. The best result in this step was obtained using SVM. A key observation for the given data set is that the performance metrics for Romney negative class is always higher that the positive class. This is due to the fact that the given data for Romney is not balanced and has 3 times
+\section{Experimental Results and Evaluation}
+
+In this project, we were given the training data set and the test set was given at the evaluation day. As we described we tried different data pre-processing methods and different classification method to obtain the best methods based on the performance on training data. 
+
+Table~\ref{fig:res} shows the results of both 
+classifiers for Obama and Romney tweets on training dataset.  As it was asked in the project definition we report precision (P), recall (R), and F-score (F) a metrics for each method.  These performance measures were obtained using 10-fold cross validation on the training data set. Table~\ref{fig:res} was partially constructed on presentation 1 \& 2.  Note that for the given data set the performance metrics for Romney negative class is always higher than the positive class since the data set is imbalance and the data distribution is skewed over negative class. 
 
        
 more data for negative class compared to the positive class.
-For the final demo, we tried Complementary Naive Bayesian in addition to the methods used with 10-fold cross validation. Table 2 shows the results and performance obtained using SVM and Complementary Naive Bayesian methods, which gave us the best performance. We have also included the results for running the original data (no pre-processing performed) with SVM
-to show how important it is to perform a proper data cleaning.this two problems are equivalent and showed the so called equivalence experimentally on a very limited data.  
 
 
- \vspace*{10pt}
+\begin{table}[t]
+        \centering
+        \caption{Classification methods results}
+        \label{fig:res}
+        \resizebox{\textwidth}{!}{\begin{tabular}{l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|}
+        \cline{2-15}
+        & \multicolumn{7}{c|}{Obama} & \multicolumn{7}{c|}{Romney} \\ \cline{2-15} 
+        & \multicolumn{3}{c|}{Positive} & \multicolumn{3}{c|}{Negative} & \multirow{2}{*}{Accuracy} & \multicolumn{3}{c|}{Positive} & \multicolumn{3}{c|}{Negative} & \multirow{2}{*}{Accuracy} \\ \cline{2-7} \cline{9-14}
+        & Precision & Recall & F-Score & Precision & Recall & F-Score &  & Precision & Recall & F-Score & Precision & Recall & F-Score &  \\ \hline
+       \multicolumn{1}{|l|}{SVM Linear} & 68.46 & 55.21 &  & 65.92 & 52.29 &  & 59.41 & 62.26 & 32.84 &  & 60.26 & 86.28 &  & 58.73 \\ \hline
+       \multicolumn{1}{|l|}{SVM rbf} & 67.54 & 59.98 &  & 63.97 & 60.76 &  & 60.88 & 33.67 & 63.18 &  & 60.77 & 85.07 &  & 58.91 \\ \hline
+       \multicolumn{1}{|l|}{Logistic Regression} & 58.49 & 57.06 &  & 64.44 & 37.20 &  & 54.39 & 45.43 & 45.77 &  & 66.72 & 58.62 &  & 53.70 \\ \hline
+       \multicolumn{1}{|l|}{Naive Bayes} & 48.92 & 49.73 &  & 60.48 & 35.92 &  & 49.63 & 32.48 & 56.37 &  & 59.70 & 65.17 &  & 49.81 \\ \hline
+       \multicolumn{1}{|l|}{Random Forest} &  &  &  &  &  &  &  &  &  &  &  &  &  &  \\ \hline
+       \multicolumn{1}{|l|}{LSTM} &  &  &  &  &  &  & 55.73 &  &  &  &  &  &  & 54.12 \\ \hline  
+        \end{tabular}}
+        \end{table}
+
+
+As we can see in table~\ref{fig:res} non-linear Support Vector Machines with RBF kernel has the best performance on the training data set. So, in the final demo we used this method to predict the classes of test data set.  
 
 
 
-The method of comparison in this paper is only based on accuracy. Although I am not expert in the area of biology but it seems better evaluation method can be used here. Moreover,  there is no discussion on the time complexity of the model. Since the data is huge in this task, one should consider the time complexity of the method, especially when there is an extra step where you need to first compute a graph and then compute all subgraphs with certain properties. 
 
 
 
 
 
+\section{Bibliography}
 
 
+ [1] Rapidminer - https://rapidminer.com.
 
 
 
